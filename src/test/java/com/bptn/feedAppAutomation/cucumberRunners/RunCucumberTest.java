@@ -9,7 +9,7 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("com/bptn/feedAppAutomation")
+@SelectClasspathResource("com/bptn/feedAppAutomation/pageFeatures/registerPage.feature")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.bptn.feedAppAutomation")
 public class RunCucumberTest {
 }
