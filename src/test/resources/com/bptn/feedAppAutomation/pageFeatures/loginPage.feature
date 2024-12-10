@@ -36,4 +36,17 @@ Feature: Login Page
       And User clicks 'Submit' on the login page
      Then User should navigate to "/app/completeProfile" to complete their user profile 
      
-  
+  # ProfilePageSteps
+  @WebTest
+  Scenario: Success - User Login - Complete New User Profile
+    Given User is on the complete user profile page "/app/completeProfile"
+     When User clicks on the 'Upload Photo' button with image "/assets/image.jpg"
+     Then A cropper should appear on the complete user profile page
+     When User clicks on the 'Crop' button to finalize the image on the complete user profile page
+      And User enters the new user profile details
+       | bio      | This is a sample bio      |
+       | city     | Vancouver                 |
+       | country  | Canada                    |
+       | headline | This is a sample headline |
+      And User clicks 'Save' on the complete profile page
+     Then User should navigate to "/app/dashboard" dashboard

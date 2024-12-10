@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bptn.feedAppAutomation.provider.ResourceProvider;
 import com.bptn.feedAppAutomation.web.DriverManager;
 
+import java.io.File;
+import java.net.URL;
+
 public class BasePage {
 
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -23,6 +26,10 @@ public class BasePage {
 
 	@Autowired
 	ResourceProvider provider;
+
+	By xPathCropBtn = By.xpath("//button[text()='Crop']");
+	By xPathFileUpload = By.xpath("//input[@type='file']");
+	By classCropperModal = By.className("ReactModal__Content");
 
 	public String getMessage(By xPathMessage) {
 		try {
@@ -49,6 +56,34 @@ public class BasePage {
 		}
 
 		return null;
+	}
+
+	public void openImageSelector(String imagePath) {
+
+		WebDriverWait wait = new WebDriverWait(this.driverManager.getDriver(), Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.presenceOfElementLocated(this.xPathFileUpload));
+
+		URL resourceUrl = BasePage.class.getResource(imagePath);
+
+		if (resourceUrl != null) {
+			String filePath = new File(resourceUrl.getFile()).getAbsolutePath();
+
+			this.driverManager.getDriver().findElement(this.xPathFileUpload).sendKeys(filePath);
+		} else {
+			throw new RuntimeException("Image not Found :" + imagePath);
+		}
+	}
+
+	public boolean validateCropperModal() {
+		WebDriverWait wait = new WebDriverWait(this.driverManager.getDriver(), Duration.ofSeconds(10));
+		WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(this.classCropperModal));
+
+		return element.isDisplayed();
+
+	}
+
+	public void clickCrop() {
+		this.driverManager.getDriver().findElement(this.xPathCropBtn).click();
 	}
 
 }
