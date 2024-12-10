@@ -1,5 +1,6 @@
 package com.bptn.feedAppAutomation.pageObjects;
 
+import java.net.URI;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
@@ -31,6 +32,18 @@ public class BasePage {
 			Thread.sleep(2000);
 
 			return messageBadgeElement.getText();
+		} catch (Exception ex) {
+			this.logger.error(ex.getMessage(), ex);
+		}
+
+		return null;
+	}
+
+	public String getPageRoute() {
+		try {
+			Thread.sleep(2000);
+			return new URI(this.driverManager.getDriver().getCurrentUrl()).getPath();
+
 		} catch (Exception ex) {
 			this.logger.error(ex.getMessage(), ex);
 		}
